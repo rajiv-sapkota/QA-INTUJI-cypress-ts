@@ -35,7 +35,7 @@ describe("Tests for header", () => {
       .and("include", "https://saucelabs.com/");
   });
 
-  it.only("TC-HEADER-106):Test if Logout Function Works", () => {
+  it("TC-HEADER-106):Test if Logout Function Works", () => {
     header.clickHamburgerIcon();
     header.clickOnAnElement("#logout_sidebar_link");
     header.assertUrl("https://www.saucedemo.com/");
