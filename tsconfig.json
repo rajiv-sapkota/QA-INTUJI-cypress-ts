@@ -5,5 +5,9 @@
       "sourceMap": true,
       "types": ["cypress", "node"]
     },
-    "include": ["**/*.ts"]
+    "include": [
+      "cypress/**/*.ts",
+      "cypress/support/commands.ts",
+      "**/*.d.ts"
+    ]
   }
