@@ -9,5 +9,5 @@
       "cypress/**/*.ts",
       "cypress/support/commands.ts",
       "**/*.d.ts"
-    ]
+, "generateFakeUsers.ts"    ]
   }
