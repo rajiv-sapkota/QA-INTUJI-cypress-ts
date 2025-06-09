@@ -1,5 +1,7 @@
 import { LoginPage } from "../pages/LoginPage";
+import { generateFakeuser } from "../fakerData/data";
 
+const user=generateFakeuser()
 const loginPage = new LoginPage();
 const username = Cypress.env("USER_NAME");
 const password = Cypress.env("PASSWORD");
