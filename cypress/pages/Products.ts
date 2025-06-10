@@ -30,8 +30,8 @@ export class Products {
         cy.get(this.filterButtonSelector).should("be.enabled").click();
     }
 
-    clickAddToCart(): void {
-        cy.contains("Add to Cart").click();
+    clickAddToCart()  {
+        return cy.contains("Add to cart").click();
     }
 
     clickProductName(): void {
@@ -76,6 +76,11 @@ export class Products {
         cy.get(this.inventoryDetailsImgLocator).should("be.visible");
         cy.get(this.inventoryDetailsDescLocator).should("be.visible");
     }
+
+    assertItemsOnCart(): void{
+        cy.get('.shopping_cart_badge').should("be.visible").should("have.text","1")
+    }
+
 
 
 
