@@ -1,3 +1,7 @@
+import { generateFakeuser } from "../fakerData/data";
+
+const user=generateFakeuser()
+
 export class LoginPage {
   // === defining Selectors ===
   private readonly usernameInputSelector = '[data-test="username"]';

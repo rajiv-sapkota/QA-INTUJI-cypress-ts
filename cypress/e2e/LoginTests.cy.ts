@@ -1,5 +1,7 @@
 import { LoginPage } from "../pages/LoginPage";
+import { generateFakeuser } from "../fakerData/data";
 
+const user=generateFakeuser()
 const loginPage = new LoginPage();
 const username = Cypress.env("USER_NAME");
 const password = Cypress.env("PASSWORD");
@@ -8,7 +10,8 @@ const invalidUsername = "test";
 const locked_out_user="locked_out_user"
 
 describe("Test cases for login", () => {
-  beforeEach(() => {
+  beforeEach( function()  {
+    cy.fixture("loginData").as("user");
     loginPage.visitLoginPage();
   });
   it("TC-LOGIN-101:should login successfully with valid credentials", () => {
@@ -18,9 +21,9 @@ describe("Test cases for login", () => {
     loginPage.assertLoginSuccessful();
   });
 
-  it("TC-LOGIN-102: test login with incorrect password", () => {
+  it("TC-LOGIN-102: test login with incorrect password", function() {
     loginPage.typeUsername(username);
-    loginPage.typePassword("dsfjfhksd");
+    loginPage.typePassword(this.user.password);
     loginPage.clickLoginButton();
     loginPage.assertDisplayedText(
       '[data-test="error"]',
@@ -38,9 +41,9 @@ describe("Test cases for login", () => {
       "Epic sadface: Username is required"
     );
   });
-  it("TC-LOGIN-104: login with invalid username and valid password", () => {
+  it("TC-LOGIN-104: login with invalid username and valid password", function() {
     cy.log("typing invalid username");
-    loginPage.typeUsername(invalidUsername);
+    loginPage.typeUsername(this.user.username);
     loginPage.typePassword(password);
     loginPage.clickLoginButton();
     loginPage.assertDisplayedText(
