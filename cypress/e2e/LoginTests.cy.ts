@@ -40,8 +40,10 @@ describe("Test cases for login", () => {
       '[data-test="error"]',
       "Epic sadface: Username is required"
     );
+    
   });
-  it("TC-LOGIN-104: login with invalid username and valid password", function() {
+  
+  it("TC-LOGIN-104: login with invalid username and valid password", function () {
     cy.log("typing invalid username");
     loginPage.typeUsername(this.user.username);
     loginPage.typePassword(password);
@@ -57,7 +59,12 @@ describe("Test cases for login", () => {
     loginPage.typePassword(password).should('have.attr', 'type', 'password')
   });
 
-  it.only("TC-LOGIN-107: restricted users are denied access", () => {
+
+  it("TC-LOGIN-106:Test hide password button is available and working", () => {
+    loginPage.clickHidePasswordButton()
+  })
+
+  it("TC-LOGIN-107: restricted users are denied access", () => {
     loginPage.typeUsername(locked_out_user)
     loginPage.typePassword(password)
     loginPage.clickLoginButton()
@@ -66,5 +73,6 @@ describe("Test cases for login", () => {
       "Epic sadface: Sorry, this user has been locked out."
     );
   });
+
 
 });

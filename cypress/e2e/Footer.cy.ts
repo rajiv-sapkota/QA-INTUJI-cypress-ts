@@ -10,10 +10,10 @@ describe("Tests for Footer", () => {
         footer.assertSocialIconsVisible()
     })
 
-    it.only("TC-FOOTER-103:Test if icons are clickable", () => {
+    it("TC-FOOTER-103:Test if icons are clickable", () => {
         footer.assertSocialIconsAreClickable()
     })
-    it.only("TC-FOOTER-103:Test if Icons have Text", () => {
+    it("TC-FOOTER-103:Test if Icons have Text", () => {
       footer.assertTextLabelsOfIcons();
     });
 })
