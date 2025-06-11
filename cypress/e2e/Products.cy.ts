@@ -79,10 +79,12 @@ describe("Tests for Products Page", () => {
     });
   });
     
-    it.only("TC-PRODUCTS-010:Tests if clicking Add to cart adds items in cart", () => {
+    it("TC-PRODUCTS-010:Tests if clicking Add to cart adds items in cart", () => {
         products.clickAddToCart()
         cy.get('[data-test="remove-sauce-labs-backpack"]').should("have.text", "Remove")
         products.assertItemsOnCart()
         
     })
+  
+  
 });

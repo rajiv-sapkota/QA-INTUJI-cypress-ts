@@ -1,12 +1,13 @@
 import { generateFakeuser } from "../fakerData/data";
 
-const user=generateFakeuser()
+const user = generateFakeuser()
 
 export class LoginPage {
   // === defining Selectors ===
   private readonly usernameInputSelector = '[data-test="username"]';
   private readonly passwordInputSelector = '[data-test="password"]';
   private readonly loginButtonSelector = '[data-test="login-button"]';
+  private readonly hidePasswordSelector='[data-test="hide-password"]'
 
   // === methods for Navigation ===
   visitLoginPage(): void {
@@ -35,6 +36,9 @@ export class LoginPage {
   clickLoginButton(): void {
     cy.get(this.loginButtonSelector).click();
   }
+  clickHidePasswordButton(): void{
+    cy.get(this.hidePasswordSelector).click()
+  }
 
   // ===methods for Assertions ===
 
@@ -49,5 +53,6 @@ export class LoginPage {
   assertLoginSuccessful(): void {
     cy.url().should("include", "inventory.html");
   }
+  
 }
 
