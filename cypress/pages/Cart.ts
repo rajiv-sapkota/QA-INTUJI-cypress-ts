@@ -14,6 +14,8 @@ export class CartPage {
   private readonly burgerIconLocator = "#react-burger-menu-btn";
   private readonly logoutLinkLocator = "#logout_sidebar_link";
   private readonly cartPageURL = "https://www.saucedemo.com/cart.html/";
+  private readonly btn_inventorySelector = ".btn_inventory";
+  private readonly cartBadgeSelector = ".shopping_cart_badge";
 
   // === methods for Navigation ===
   visitCartPage(): void {
@@ -79,12 +81,30 @@ export class CartPage {
     });
   }
 
-  assertNoAccessToCartWithoutLogin(expectedText:string): void {
+  assertNoAccessToCartWithoutLogin(expectedText: string): void {
     cy.get('[data-test="error"]')
       .should("be.visible")
-      .and(
-        "have.text",
-        expectedText
-      );
+      .and("have.text", expectedText);
+  }
+  addRemoveProductToCart(): this {
+    cy.get(this.btn_inventorySelector)
+      .each(($btn, index) => {
+        cy.wrap($btn).should("have.text", "Add to cart").click();
+        const expectedCount = (index + 1).toString();
+        cy.get(this.cartBadgeSelector).should("have.text", expectedCount);
+      })
+      .then(($buttons) => {
+        const total = $buttons.length;
+        cy.get(this.btn_inventorySelector).each(($btn, index) => {
+          cy.wrap($btn).should("have.text", "Remove").click();
+          const remaining = total - (index + 1);
+          if (remaining > 0) {
+            cy.get(this.cartBadgeSelector).should("have.text", remaining.toString());
+          } else {
+            cy.get(this.cartBadgeSelector).should("not.exist");
+          }
+        });
+      });
+    return this;
   }
 }
