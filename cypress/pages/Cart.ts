@@ -53,24 +53,26 @@ export class CartPage {
 
   // ===methods for Assertions ===
 
-  assertEmptyCart(): void {
+  assertEmptyCart(): void {  //asserts that the cart is empty
     cy.get(this.badgeInCartLocator).should("not.exist");
   }
 
-  assertCartItemCount(expectedCount: string): void {
+  assertCartItemCount(expectedCount: string): void {   //asserts the count of item in a cart
     cy.get(this.badgeInCartLocator).should(
       "have.text",
       expectedCount.toString()
     );
   }
-  assertRemoveButton(): void {
+  
+  assertRemoveButton(): void {  //assert that a button has text "Remove"
     cy.get(this.removeButtonLocator).should("have.text", "Remove");
   }
-  assertYourCartDisplayed(): void {
+ 
+  assertYourCartDisplayed(): void { //assert user is in cart page
     cy.get(this.yourCartLocator).should("be.visible");
   }
 
-  assertProductDetailsInCart(
+  assertProductDetailsInCart(  // assert product details in product cards
     parentSelector: string,
     childSelectors: string[] = []
   ): void {
@@ -81,12 +83,14 @@ export class CartPage {
     });
   }
 
-  assertNoAccessToCartWithoutLogin(expectedText: string): void {
+  assertNoAccessToCartWithoutLogin(expectedText: string): void {  // assert users have no access to cart without login
     cy.get('[data-test="error"]')
       .should("be.visible")
       .and("have.text", expectedText);
   }
-  addRemoveProductToCart(): this {
+  
+  
+  addRemoveProductToCart(): this {    //assert cart item count is udaated dynamically
     cy.get(this.btn_inventorySelector)
       .each(($btn, index) => {
         cy.wrap($btn).should("have.text", "Add to cart").click();
