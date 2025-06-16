@@ -5,7 +5,7 @@ export class Footer {
 
   //===assert methods===
 
-  assertSocialIconsVisible(): void {
+  assertSocialIconsVisible(): void {   
     cy.get(".social").each((item) => {
       cy.wrap(item).should("be.visible");
     });

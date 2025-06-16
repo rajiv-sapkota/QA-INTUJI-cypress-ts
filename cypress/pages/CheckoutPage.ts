@@ -12,6 +12,9 @@ export class CheckoutPage {
     '[data-test="complete-header"]';
   private readonly errorMessageLocator = '[data-test="error"]';
 
+
+  // === click methods====
+  
   clickCheckOutButton(): void {
     cy.get(this.checkoutButtonLocator).click();
   }
@@ -31,6 +34,9 @@ export class CheckoutPage {
       cy.get(this.firstNameLocator).clear();
     }
   }
+  
+  ///=== type methods ===
+  
   typeLastName(lastName?: string): void {
     if (lastName) {
       cy.get(this.lastNameLocator).type(lastName);
@@ -46,42 +52,45 @@ export class CheckoutPage {
     }
   }
 
-  assertUserIsInCheckoutPage(): void {
+  // === Assertions ===
+  
+  assertUserIsInCheckoutPage(): void {   //assert that user is in checkout page
     cy.get(this.assertTextLocatorCheckout).should(
       "have.text",
       "Checkout: Your Information"
     );
   }
 
-  assertUserInCheckoutOverview(): void {
+  assertUserInCheckoutOverview(): void {  //assert use is in checkout overview
     cy.get(this.assertTextLocatorCheckoutOverview).should(
       "have.text",
       "Checkout: Overview"
     );
   }
-  assertSuccessText(): void {
+  
+  assertSuccessText(): void {  // assert success text for successful order
     cy.get(this.successfulOrderMessageLocator)
       .should("be.visible")
       .should("have.text", "Thank you for your order!");
   }
-  asserErrorMessage(): void {
+  asserErrorMessage(): void { //assert error message
     cy.get(this.errorMessageLocator)
       .should("be.visible")
       .and("have.text", "All fields are Required");
   }
 
-  assertErrorMessageEmptyFirstName(): void {
+  assertErrorMessageEmptyFirstName(): void {  // assert error message for empty firstname field
     cy.get(this.errorMessageLocator)
       .should("be.visible")
       .and("have.text", "Error: First Name is required");
   }
 
-  assertErrorMessageEmptyLastName(): void {
+  assertErrorMessageEmptyLastName(): void {    // assert error message for empty last name
     cy.get(this.errorMessageLocator)
       .should("be.visible")
       .and("have.text", "Error: Last Name is required");
   }
-  assertErrorMessageEmptyZipCode(): void {
+  assertErrorMessageEmptyZipCode(): void {  //assert error message for empty zip code
     cy.get(this.errorMessageLocator)
       .should("be.visible")
       .and("have.text", "Error: Postal Code is required");
