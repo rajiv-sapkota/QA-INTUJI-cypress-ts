@@ -1,5 +1,5 @@
 ///<reference types="cypress" />
-import { LoginPage } from "../pages/LoginPage";
+import { LoginPage } from "../support/pages/LoginPage";
 
 const loginPage = new LoginPage();
 Cypress.Commands.add("login", (username,password) => {
