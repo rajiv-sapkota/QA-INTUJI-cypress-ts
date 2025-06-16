@@ -1,5 +1,5 @@
-import { CartPage } from "../pages/Cart";
-import { Products } from "../pages/Products";
+import { CartPage } from "../support/pages/Cart";
+import { Products } from "../support/pages/Products";
 
 const cart = new CartPage();
 const product = new Products();
@@ -61,8 +61,8 @@ describe("Tests for Cart Module", () => {
     cart.assertCartItemCount("1");
   });
 
-  it.only("TC-CART-008:Tests if item count updates correctily ", () => {
-    cart.addRemoveProductToCart()
+  it("TC-CART-008:Tests if item count updates correctily ", () => {
+    cart.addRemoveProductToCart();
   });
 
   it("TC-CART-010:Tests if added items persisit when logged out", () => {
@@ -72,7 +72,6 @@ describe("Tests for Cart Module", () => {
     cy.login(Cypress.env("USER_NAME"), Cypress.env("PASSWORD"));
     cart.assertCartItemCount("6");
   });
- 
 });
 
 describe("Cart Single", () => {
@@ -80,6 +79,8 @@ describe("Cart Single", () => {
     cy.visit("https://www.saucedemo.com/cart.html", {
       failOnStatusCode: false,
     });
-    cart.assertNoAccessToCartWithoutLogin("Epic sadface: You can only access '/cart.html' when you are logged in.");
+    cart.assertNoAccessToCartWithoutLogin(
+      "Epic sadface: You can only access '/cart.html' when you are logged in."
+    );
   });
 });
