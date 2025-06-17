@@ -1,3 +1,15 @@
+import { generateFakeuser } from "../../fakerData/data";
+import {
+  TypingHelpers,
+  AssertHelpers,
+  ClickHelpers,
+  
+} from "../helpers";
+
+import { Faker } from "@faker-js/faker/.";
+
+const user = generateFakeuser();
+
 export class CheckoutPage {
   private readonly checkoutButtonLocator = "#checkout";
   private readonly firstNameLocator = "#first-name";
@@ -12,87 +24,104 @@ export class CheckoutPage {
     '[data-test="complete-header"]';
   private readonly errorMessageLocator = '[data-test="error"]';
 
+  private typingHelpers = new TypingHelpers();
+  private assertHelpers = new AssertHelpers();
+  private clickHelpers = new ClickHelpers();
+  
+
+  ///=== type methods ===
+
+  typeLastName(lastName?: string): this {
+    if (lastName) {
+      this.typingHelpers.typeText(this.lastNameLocator, lastName);
+    }
+    return this;
+  }
+  typePostalCode(postalCode?: string): this {
+    if (postalCode) {
+      this.typingHelpers.typeText(this.zipCodeButtonLocator, postalCode);
+    }
+    return this;
+  }
+
+  typeFirstName(firstName?: string): this {
+    if (firstName) {
+      this.typingHelpers.typeText(this.firstNameLocator, firstName);
+    }
+    return this;
+  }
 
   // === click methods====
-  
+
   clickCheckOutButton(): void {
-    cy.get(this.checkoutButtonLocator).click();
+    this.clickHelpers.clickButton(this.checkoutButtonLocator);
   }
   clickContinueButton(): void {
-    cy.get(this.continueButtonLocator).click();
+    this.clickHelpers.clickButton(this.continueButtonLocator);
   }
   clickCartButton(): void {
-    cy.get(this.cartButtonLocator).click();
+    this.clickHelpers.clickButton(this.cartButtonLocator);
   }
   clickFinishButton(): void {
-    cy.get(this.finishButtonLocator).click();
-  }
-  typeFirstName(firstName?: string): void {
-    if (firstName) {
-      cy.get(this.firstNameLocator).type(firstName);
-    } else {
-      cy.get(this.firstNameLocator).clear();
-    }
-  }
-  
-  ///=== type methods ===
-  
-  typeLastName(lastName?: string): void {
-    if (lastName) {
-      cy.get(this.lastNameLocator).type(lastName);
-    } else {
-      cy.get(this.lastNameLocator).clear();
-    }
-  }
-  typePostalCode(postalCode?: string): void {
-    if (postalCode) {
-      cy.get(this.zipCodeButtonLocator).type(postalCode);
-    } else {
-      cy.get(this.zipCodeButtonLocator).clear();
-    }
+    this.clickHelpers.clickButton(this.finishButtonLocator);
   }
 
   // === Assertions ===
-  
-  assertUserIsInCheckoutPage(): void {   //assert that user is in checkout page
-    cy.get(this.assertTextLocatorCheckout).should(
-      "have.text",
+
+  assertUserIsInCheckoutPage(): void {
+    //assert that user is in checkout page
+    this.assertHelpers.assertVisibleText(
+      this.assertTextLocatorCheckout,
       "Checkout: Your Information"
     );
   }
 
-  assertUserInCheckoutOverview(): void {  //assert use is in checkout overview
-    cy.get(this.assertTextLocatorCheckoutOverview).should(
-      "have.text",
+  assertUserInCheckoutOverview(): void {
+    //assert use is in checkout overview
+    this.assertHelpers.assertVisibleText(
+      this.assertTextLocatorCheckoutOverview,
       "Checkout: Overview"
     );
   }
-  
-  assertSuccessText(): void {  // assert success text for successful order
-    cy.get(this.successfulOrderMessageLocator)
-      .should("be.visible")
-      .should("have.text", "Thank you for your order!");
+
+  assertSuccessText(): void {
+    // assert success text for successful order
+    this.assertHelpers.assertVisibleText(
+      this.successfulOrderMessageLocator,
+      "Thank you for your order!"
+    );
   }
-  asserErrorMessage(): void { //assert error message
-    cy.get(this.errorMessageLocator)
-      .should("be.visible")
-      .and("have.text", "All fields are Required");
+  asserErrorMessage(): void {
+    //assert error message
+    this.assertHelpers.assertVisibleText(
+      this.errorMessageLocator,
+      "All fields are Required"
+    );
   }
 
-  assertErrorMessageEmptyFirstName(): void {  // assert error message for empty firstname field
-    cy.get(this.errorMessageLocator)
-      .should("be.visible")
-      .and("have.text", "Error: First Name is required");
+  assertErrorMessageEmptyFirstName(): void {
+    // assert error message for empty firstname field
+    this.assertHelpers.assertVisibleText(
+      this.errorMessageLocator,
+      "Error: First Name is required"
+    );
   }
 
-  assertErrorMessageEmptyLastName(): void {    // assert error message for empty last name
-    cy.get(this.errorMessageLocator)
-      .should("be.visible")
-      .and("have.text", "Error: Last Name is required");
+  assertErrorMessageEmptyLastName(): void {
+    // assert error message for empty last name
+    this.assertHelpers.assertVisibleText(
+      this.errorMessageLocator,
+      "Error: Last Name is required"
+    );
+      
   }
-  assertErrorMessageEmptyZipCode(): void {  //assert error message for empty zip code
-    cy.get(this.errorMessageLocator)
-      .should("be.visible")
-      .and("have.text", "Error: Postal Code is required");
+  assertErrorMessageEmptyZipCode(): void {
+    //assert error message for empty zip code
+    this.assertHelpers
+      .assertVisibleText(
+        this.errorMessageLocator,
+        "Error: Postal Code is required"
+      )
+      
   }
 }

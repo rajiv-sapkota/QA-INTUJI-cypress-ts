@@ -1,9 +1,11 @@
-import { Helper } from "../helpers/Helpers";
 
+import {
+  
+  ClickHelpers,
+  GetHelpers,
+} from "../helpers";
 
-
-
-export class CartPage extends Helper {
+export class CartPage   {
   // === defining Selectors ===
 
   private readonly addToCartLocator = ".btn_primary ";
@@ -18,32 +20,37 @@ export class CartPage extends Helper {
   private readonly btn_inventorySelector = ".btn_inventory";
   private readonly cartBadgeSelector = ".shopping_cart_badge";
 
+
+
+  private clickHelpers = new ClickHelpers();
+  private getHelpers = new GetHelpers();
+
   // === methods for Navigation ===
   visitCartPage(): void {
-    this.visitUrl(this.cartPageURL);
+    this.getHelpers.visitUrl(this.cartPageURL);
   }
 
   // === methods for Typing ===
 
   // === method for Clicking ===
   clickAddToCart(): void {
-    this.clickButton(this.addToCartSingle)
+    this.clickHelpers.clickButton(this.addToCartSingle);
   }
 
   clickCartIcon(): void {
-    this.clickLink(this.cartIconLocator)
+    this.clickHelpers.clickLink(this.cartIconLocator);
   }
 
   clickRemoveButton(): void {
-    this.clickByText("Remove")
+    this.clickHelpers.clickByText("Remove");
   }
 
   clickBurgerIcon(): void {
-    this.clickButton(this.burgerIconLocator)
+    this.clickHelpers.clickButton(this.burgerIconLocator);
   }
 
   clickLogout(): void {
-    this.clickButton(this.logoutLinkLocator)
+    this.clickHelpers.clickButton(this.logoutLinkLocator);
   }
 
   addAllItemsToCart(): void {
@@ -54,26 +61,31 @@ export class CartPage extends Helper {
 
   // ===methods for Assertions ===
 
-  assertEmptyCart(): void {  //asserts that the cart is empty
+  assertEmptyCart(): void {
+    //asserts that the cart is empty
     cy.get(this.badgeInCartLocator).should("not.exist");
   }
 
-  assertCartItemCount(expectedCount: string): void {   //asserts the count of item in a cart
+  assertCartItemCount(expectedCount: string): void {
+    //asserts the count of item in a cart
     cy.get(this.badgeInCartLocator).should(
       "have.text",
       expectedCount.toString()
     );
   }
-  
-  assertRemoveButton(): void {  //assert that a button has text "Remove"
+
+  assertRemoveButton(): void {
+    //assert that a button has text "Remove"
     cy.get(this.removeButtonLocator).should("have.text", "Remove");
   }
- 
-  assertYourCartDisplayed(): void { //assert user is in cart page
+
+  assertYourCartDisplayed(): void {
+    //assert user is in cart page
     cy.get(this.yourCartLocator).should("be.visible");
   }
 
-  assertProductDetailsInCart(  // assert product details in product cards
+  assertProductDetailsInCart(
+    // assert product details in product cards
     parentSelector: string,
     childSelectors: string[] = []
   ): void {
@@ -84,14 +96,15 @@ export class CartPage extends Helper {
     });
   }
 
-  assertNoAccessToCartWithoutLogin(expectedText: string): void {  // assert users have no access to cart without login
+  assertNoAccessToCartWithoutLogin(expectedText: string): void {
+    // assert users have no access to cart without login
     cy.get('[data-test="error"]')
       .should("be.visible")
       .and("have.text", expectedText);
   }
-  
-  
-  addRemoveProductToCart(): this {    //assert cart item count is udaated dynamically
+
+  addRemoveProductToCart(): this {
+    //assert cart item count is udaated dynamically
     cy.get(this.btn_inventorySelector)
       .each(($btn, index) => {
         cy.wrap($btn).should("have.text", "Add to cart").click();
@@ -104,7 +117,10 @@ export class CartPage extends Helper {
           cy.wrap($btn).should("have.text", "Remove").click();
           const remaining = total - (index + 1);
           if (remaining > 0) {
-            cy.get(this.cartBadgeSelector).should("have.text", remaining.toString());
+            cy.get(this.cartBadgeSelector).should(
+              "have.text",
+              remaining.toString()
+            );
           } else {
             cy.get(this.cartBadgeSelector).should("not.exist");
           }

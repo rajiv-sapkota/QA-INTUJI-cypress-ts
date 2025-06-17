@@ -1,6 +1,10 @@
-import { Helper } from "../helpers/Helpers";
+import {
+  ClickHelpers,
+  GetHelpers,
+} from "../helpers";
 
-export class Products extends Helper {
+
+export class Products {
   // === defining Selectors ===
   private readonly headingTextSelector = '[data-test="title"]';
   private readonly filterButtonSelector =
@@ -16,6 +20,12 @@ export class Products extends Helper {
     ".inventory_details_img_container";
   private readonly inventoryDetailsDescLocator =
     ".inventory_details_desc_container";
+   
+  
+  //creating instances for helpers
+ 
+  private clickHelpers = new ClickHelpers();
+  private getHelpers = new GetHelpers();
 
   // === methods for gettingElement===
 
@@ -26,22 +36,22 @@ export class Products extends Helper {
   // === method for Clicking ===
 
   clickFilterButton(): void {
-    this.clickButton(this.filterButtonSelector).should("be.enabled").click();
+    this.clickHelpers.clickButton(this.filterButtonSelector).should("be.enabled").click();
   }
 
   clickAddToCart() {
-    return this.clickByText("Add to Cart")
+    return this.clickHelpers.clickByText("Add to cart");
   }
 
-  clickProductName(){
-  return  this.clickLink(this.cardTitleLocator).eq(1).click()
+  clickProductName() {
+    return this.clickHelpers.clickFirstElement(this.cardTitleLocator);
   }
- 
-    clickProductImage() {
-    return this.clickLink(this.cardImageLocator).eq(1).click()
+
+  clickProductImage() {
+    return this.clickHelpers.clickLink(this.cardImageLocator);
   }
-  
-    selectFilterOption(option: string): void {
+
+  selectFilterOption(option: string): void {
     cy.get(this.filterButtonSelector).select(option);
   }
 
@@ -53,8 +63,8 @@ export class Products extends Helper {
       .and("be.visible");
   }
 
-  assertProductsUrl(url: string): void {
-  this.assertUrl(url);
+  assertProductsPageUrl(): void {
+    this.getHelpers.getUrl().should("eq", "https://www.saucedemo.com/inventory.html");
   }
 
   assertLoadedFilterValue(locator: string, value: string): void {
@@ -83,6 +93,4 @@ export class Products extends Helper {
       .should("be.visible")
       .should("have.text", "1");
   }
-
-  
 }

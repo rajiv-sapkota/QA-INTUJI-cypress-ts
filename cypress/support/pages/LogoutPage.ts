@@ -1,30 +1,40 @@
-export class LogoutPage{
+import {
+  
+  AssertHelpers,
+  ClickHelpers,
+  
+} from "../helpers";
 
-    private readonly hamburgerIconLocator='#react-burger-menu-btn'
-    private readonly loginLinkLocator = '#logout_sidebar_link'
+export class LogoutPage {
+  private readonly hamburgerIconLocator = "#react-burger-menu-btn";
+  private readonly loginLinkLocator = "#logout_sidebar_link";
+  private readonly errorLocator = '[data-test="error"]';
 
-    clickHamburgerIcon(): void{
-        cy.get(this.hamburgerIconLocator).click()
-    }
+  
+  private assertHelpers = new AssertHelpers();
+  private clickHelpers = new ClickHelpers();
+  
 
-    clickLogoutLink(): void{
-        cy.get(this.loginLinkLocator).click()
-    }
+  clickHamburgerIcon(): void {
+    this.clickHelpers.clickButton(this.hamburgerIconLocator);
+  }
 
-    assertSuccessfullLogout(): void{
-        cy.url().should("eq", "https://www.saucedemo.com/")
-    }
+  clickLogoutLink(): void {
+    this.clickHelpers.clickButton(this.loginLinkLocator);
+  }
 
-    assertConformationMessage(message:string): void{
-        cy.contains(message)
-    }
+  assertSuccessfullLogout(): void {
+    this.assertHelpers.assertUrl("https://www.saucedemo.com/");
+  }
 
-    assertErrorMessage(locator:string,expectedMessage: string): void{
-        cy.get(locator).should("have.text",expectedMessage)
-        
-    }
+  assertConformationMessage(message: string): void {
+    cy.contains(message);
+  }
 
-
-
-
+  assertErrorMessage(): void {
+    this.assertHelpers.assertVisibleText(
+      this.errorLocator,
+      "Epic sadface: You can only access '/inventory.html' when you are logged in."
+    );
+  }
 }

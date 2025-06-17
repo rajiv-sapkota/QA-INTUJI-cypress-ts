@@ -1,54 +1,64 @@
 import { generateFakeuser } from "../../fakerData/data";
-import { Helper } from "../helpers/Helpers";
+import {
+  TypingHelpers,
+  AssertHelpers,
+  ClickHelpers,
+  GetHelpers,
+} from "../helpers";
 
 const user = generateFakeuser();
 
-export class LoginPage extends Helper {
+export class LoginPage {
   private readonly usernameInputSelector = '[data-test="username"]';
   private readonly passwordInputSelector = '[data-test="password"]';
   private readonly loginButtonSelector = '[data-test="login-button"]';
   private readonly hidePasswordSelector = '[data-test="hide-password"]';
 
+  private typingHelpers = new TypingHelpers();
+  private assertHelpers = new AssertHelpers();
+  private clickHelpers = new ClickHelpers();
+  private getHelpers = new GetHelpers();
+
   visitLoginPage(): void {
-    this.visitUrl("/");
+    this.getHelpers.visitUrl("/");
   }
 
   typeUsername(username: string): this {
     if (username) {
-      this.typeText(this.usernameInputSelector, username);
+      this.typingHelpers.typeText(this.usernameInputSelector, username);
     }
     return this;
   }
 
   typePassword(password: string): this {
     if (password) {
-      this.typeText(this.passwordInputSelector, password);
+      this.typingHelpers.typeText(this.passwordInputSelector, password);
     }
     return this;
   }
 
-  clickLoginButton(): void {
-    this.clickButton(this.loginButtonSelector);
+  clickLogin(){
+    this.clickHelpers.clickLoginButton()
   }
 
   clickHidePasswordButton(): void {
-    this.clickButton(this.hidePasswordSelector);
+    this.clickHelpers.clickButton(this.hidePasswordSelector);
   }
 
   assertPageUrl(url: string): void {
-    this.assertUrl(url);
+    this.getHelpers.getUrl();
   }
 
   assertDisplayedText(selector: string, text: string): void {
-    this.assertVisibleText(selector, text);
+    this.assertHelpers.assertVisibleText(selector, text);
   }
 
   assertLoginSuccessful(): void {
     const expectedUrl = `${Cypress.config("baseUrl")}`;
-    this.assertUrl(expectedUrl);
+    this.getHelpers.getUrl();
   }
 
   assertPasswordMasked(): void {
-    this.assertMaskedField(this.passwordInputSelector);
+    this.assertHelpers.assertMaskedField(this.passwordInputSelector);
   }
 }
