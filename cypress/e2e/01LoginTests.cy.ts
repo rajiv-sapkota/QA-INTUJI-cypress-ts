@@ -17,25 +17,25 @@ describe("Test cases for login", () => {
   it("TC-LOGIN-101:should login successfully with valid credentials", () => {
     loginPage.typeUsername(username);
     loginPage.typePassword(password);
-    loginPage.clickLoginButton();
+    loginPage.clickLogin();
     loginPage.assertLoginSuccessful();
   });
 
   it("TC-LOGIN-102: test login with incorrect password", function () {
     loginPage.typeUsername(username);
     loginPage.typePassword(this.user.password);
-    loginPage.clickLoginButton();
+    loginPage.clickLogin();
     loginPage.assertDisplayedText(
       '[data-test="error"]',
       "Epic sadface: Username and password do not match any user in this service"
     );
-    loginPage.assertUrl(url);
+    loginPage.assertPageUrl(url);
   });
 
   it("TC-LOGIN-103: login with empty username and password", () => {
     loginPage.typeUsername("");
     loginPage.typePassword("");
-    loginPage.clickLoginButton();
+    loginPage.clickLogin();
     loginPage.assertDisplayedText(
       '[data-test="error"]',
       "Epic sadface: Username is required"
@@ -46,16 +46,16 @@ describe("Test cases for login", () => {
     cy.log("typing invalid username");
     loginPage.typeUsername(this.user.username);
     loginPage.typePassword(password);
-    loginPage.clickLoginButton();
+    loginPage.clickLogin();
     loginPage.assertDisplayedText(
       '[data-test="error"]',
       "Epic sadface: Username and password do not match any user in this service"
     );
-    loginPage.assertUrl(url);
+    loginPage.assertPageUrl(url);
   });
 
   it("TC-LOGIN-105: password field is masked", () => {
-    loginPage.typePassword(password).assertPasswordMasked()
+    loginPage.typePassword(password).assertPasswordMasked();
   });
 
   it("TC-LOGIN-106:Test hide password button is available and working", () => {
@@ -65,7 +65,7 @@ describe("Test cases for login", () => {
   it("TC-LOGIN-107: restricted users are denied access", () => {
     loginPage.typeUsername(locked_out_user);
     loginPage.typePassword(password);
-    loginPage.clickLoginButton();
+    loginPage.clickLogin();
     loginPage.assertDisplayedText(
       '[data-test="error"]',
       "Epic sadface: Sorry, this user has been locked out."
