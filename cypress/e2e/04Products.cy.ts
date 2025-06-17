@@ -1,5 +1,5 @@
 import { text } from "stream/consumers";
-import { Products } from "../pages/Products";
+import { Products } from "../support/pages/Products";
 
 const products = new Products();
 const filterButtonSelector = '[data-test="active-option"]';
@@ -10,7 +10,7 @@ describe("Tests for Products Page", () => {
   });
 
   it("TC-PRODUCTS-101:Products page is accessible", () => {
-    products.assertUrl("https://www.saucedemo.com/inventory.html");
+    products.assertProductsPageUrl()
   });
 
   it("TC-PRODUCTS:Products Page Title is Visible", () => {
@@ -31,7 +31,7 @@ describe("Tests for Products Page", () => {
   });
 
   it("TC-PRODUCTS-008:Tests if products can be accessed through Product Image", () => {
-    products.clickProductImage();
+    products.clickProductName();
     products.assertNavigateProduct();
   });
 
@@ -78,13 +78,13 @@ describe("Tests for Products Page", () => {
       return prices;
     });
   });
-    
-    it("TC-PRODUCTS-010:Tests if clicking Add to cart adds items in cart", () => {
-        products.clickAddToCart()
-        cy.get('[data-test="remove-sauce-labs-backpack"]').should("have.text", "Remove")
-        products.assertItemsOnCart()
-        
-    })
-  
-  
+
+  it("TC-PRODUCTS-010:Tests if clicking Add to cart adds items in cart", () => {
+    products.clickAddToCart();
+    cy.get('[data-test="remove-sauce-labs-backpack"]').should(
+      "have.text",
+      "Remove"
+    );
+    products.assertItemsOnCart();
+  });
 });

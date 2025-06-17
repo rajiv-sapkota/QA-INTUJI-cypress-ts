@@ -1,4 +1,4 @@
-import { Header } from "../pages/Header";
+import { Header } from "../support/pages/Header";
 const header = new Header();
 describe("Tests for header", () => {
   beforeEach(() => {
@@ -40,6 +40,4 @@ describe("Tests for header", () => {
     header.clickOnAnElement("#logout_sidebar_link");
     header.assertUrl("https://www.saucedemo.com/");
   });
-    
-    
 });
