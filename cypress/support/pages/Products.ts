@@ -44,7 +44,7 @@ export class Products {
   }
 
   clickProductName() {
-    return this.clickHelpers.clickFirstElement(this.cardTitleLocator);
+    return this.clickHelpers.clickFirstElement(this.cardTitleLocator,1);
   }
 
   clickProductImage() {

@@ -1,12 +1,8 @@
- 
 export class ClickHelpers {
-  
-
   //to click a button
   clickButton(label: string) {
-    return cy.get(label).click()
+    return cy.get(label).click();
   }
-
 
   //to click a link
   clickLink(selector: string) {
@@ -20,11 +16,11 @@ export class ClickHelpers {
 
   // to click on the login button
   clickLoginButton() {
-    cy.contains("Login").click()
+    cy.contains("Login").click();
   }
 
   // to click the first child of a class
-  clickFirstElement(locator: string) {
-    cy.get(locator).eq(1).click()
+  clickFirstElement(locator: string, index: number) {
+    cy.get(locator).eq(index).click();
   }
 }
