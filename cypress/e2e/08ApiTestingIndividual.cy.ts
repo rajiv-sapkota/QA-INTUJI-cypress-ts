@@ -1,10 +1,7 @@
 import { generateFakeuser } from "../fakerData/data";
-const baseUrl = "https://gorest.co.in/public/v2/users";
-
-const token =
-  "Bearer 28cf32bd646230d7ca6cfcc2df95eadf3730368ddbe4d6ef358d030c5adb227a";
 
 const user = generateFakeuser();
+
 const userDetails = {
   name: user.username,
   gender: "male",
@@ -13,15 +10,19 @@ const userDetails = {
 };
 
 const updatedUser = {
-    name: user.firstName,
-    email: user.email,
-    gender: "male",
-    status:"active"
- 
-  
+  name: user.firstName,
+  email: user.email,
+  gender: "male",
+  status: "active",
 };
 
-let userID: number;
+
+const baseUrl = "https://gorest.co.in/public/v2/users";
+
+const token =
+  "Bearer 28cf32bd646230d7ca6cfcc2df95eadf3730368ddbe4d6ef358d030c5adb227a";
+
+
 
 describe("API Testing Using Cypress for GoRest API", () => {
   it("TC-API-101: should get all the users", () => {
@@ -46,7 +47,7 @@ describe("API Testing Using Cypress for GoRest API", () => {
       },
       body: userDetails,
     }).then((response) => {
-        userID=response.body.id
+        const userID=response.body.id
         expect(response.status).to.equal(201)
         expect(response.body).to.have.all.keys("id", "name", "email", "gender", "status")
         expect(response.body.id).to.equal(userID)
