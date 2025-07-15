@@ -1,32 +1,17 @@
-import { generateFakeuser } from "../fakerData/data";
 
-const user = generateFakeuser();
+import { ApiPage } from "../support/pages/APIPage";
 
-const userDetails = {
-  name: user.username,
-  gender: "male",
-  email: user.email,
-  status: "active",
-};
+const apiReq=new ApiPage()
 
-const updatedUser = {
-  name: user.firstName,
-  email: user.email,
-  gender: "male",
-  status: "active",
-};
-
-
-const baseUrl = "https://gorest.co.in/public/v2/users";
 
 const token =
   "Bearer 28cf32bd646230d7ca6cfcc2df95eadf3730368ddbe4d6ef358d030c5adb227a";
 
 
-
 describe("API Testing Using Cypress for GoRest API", () => {
   it("TC-API-101: should get all the users", () => {
-    cy.request("GET", baseUrl).then((response) => {
+    
+    apiReq.getRequest().then((response) => {
       expect(response.status).to.equal(200);
       expect(response.body[0]).to.have.all.keys(
         "id",
@@ -38,22 +23,15 @@ describe("API Testing Using Cypress for GoRest API", () => {
     });
   });
 
-  it("TC-API-102: should post and verify user id is in response", () => {
-    cy.request({
-      method: "POST",
-      url: baseUrl,
-      headers: {
-        Authorization: token,
-      },
-      body: userDetails,
-    }).then((response) => {
+  it.only("TC-API-102: should post and verify user id is in response", () => {
+    apiReq.postRequest().then((response) => {
         const userID=response.body.id
         expect(response.status).to.equal(201)
         expect(response.body).to.have.all.keys("id", "name", "email", "gender", "status")
         expect(response.body.id).to.equal(userID)
-        expect(response.body.name).to.equal(user.username)
-        expect(response.body.email).to.equal(user.email)
-        expect(response.body.status).to.equal(userDetails.status)
+        expect(response.body.name).to.equal(apiReq.userDetails.name)
+        expect(response.body.email).to.equal(apiReq.userDetails.email);
+        expect(response.body.status).to.equal(apiReq.userDetails.status);
     
     })
 
@@ -96,7 +74,7 @@ describe("API Testing Using Cypress for GoRest API", () => {
       });
     });
 
-    it.only("TC-API-105: should delete user id", () => {
+    it("TC-API-105: should delete user id", () => {
       cy.request({
         method: "DELETE",
         url: baseUrl + "/" + 8005635,
