@@ -1,6 +1,8 @@
 import { generateFakeuser } from "../fakerData/data";
+import { ApiPage } from "../support/pages/APIPage";
 
 const user = generateFakeuser();
+const apiReq=new ApiPage()
 
 const userDetails = {
   name: user.firstName,
@@ -19,23 +21,14 @@ describe("E2E API test for GOREST API / USERS", () => {
    
       //getting all users
     cy.log("Getting all Users");
-    cy.request({
-      method: "GET",
-      url: baseUrl,
-    }).then((response) => {
+      apiReq.getRequest().then((response) => {
       expect(response.status).to.equal(200);
     });
 
     //posting a user
     cy.log("Posting a User");
-    cy.request({
-      method: "POST",
-      url: baseUrl,
-      headers: {
-        Authorization: token,
-      },
-      body: userDetails,
-    }).then((response) => {
+    apiReq.postRequest(
+    ).then((response) => {
       expect(response.status).to.equal(201);
       const userID = response.body.id;
 
