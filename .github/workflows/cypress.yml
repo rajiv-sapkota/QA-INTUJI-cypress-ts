@@ -1,4 +1,4 @@
-name: Cypress Tests with Mochawesome
+name: Cypress Tests with Mochawesome Reporter
 
 on:
   push:
@@ -27,12 +27,17 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🧪 Run Cypress tests with MochaAwesome
-        run: |
-          npx cypress run --reporter mochawesome --reporter-options reportDir=cypress/reports,overwrite=false,html=true,json=true
+      - name: 🧪 Run Cypress Tests with HTML Report
+        run: npx cypress run
 
-      - name: 📤 Upload Mochawesome report
+      - name: 📄 Merge JSON & Generate Final HTML Report
+        run: |
+          npx mochawesome-merge cypress/reports/*.json > cypress/reports/output.json
+          npx marge cypress/reports/output.json --reportDir cypress/reports --reportFilename mochawesome.html
+
+      - name: 📤 Upload Final Mochawesome HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
-          path: cypress/reports
+          path: cypress/reports/mochawesome.html
+
