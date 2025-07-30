@@ -21,7 +21,7 @@ export default defineConfig({
     //openMode:2
     //},
     env: { ...process.env },
-    baseUrl: process.env.BASEURL,
+    baseUrl: process.env.BASE_URL,
     //viewportWidth: 1660,
     //viewportHeight: 880,
     setupNodeEvents(on, config) {
