@@ -10,6 +10,11 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
+    env:
+      BASE_URL: "https://www.saucedemo.com"
+      USER_NAME: "standard_user"
+      PASSWORD: "secret_sauce"
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
