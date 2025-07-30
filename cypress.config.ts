@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
 import * as dotenv from "dotenv";
+import { json } from "stream/consumers";
 const {
   beforeRunHook,
   afterRunHook,
@@ -9,12 +10,14 @@ dotenv.config({ path: "./.env" });
 export default defineConfig({
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
-    reportDir: "cypress/reports/.jsons",
+    reportDir: "cypress/reports/html",
     charts: true,
     reportPageTitle: "Report for SauceDemo",
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,
+    html: true,
+    json: true,
   },
   e2e: {
     //retries: {
