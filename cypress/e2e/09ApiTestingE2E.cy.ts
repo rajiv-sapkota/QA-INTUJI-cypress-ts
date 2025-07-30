@@ -64,7 +64,7 @@ describe("E2E API test for GOREST API / USERS", () => {
         cy.log("Deleting User")
         cy.request({
           method: "DELETE",
-          url: `${baseUrl}/${userID}`,
+        url: `${baseUrl}/${userID}`,
           headers: {
             Authorization: token,
           }

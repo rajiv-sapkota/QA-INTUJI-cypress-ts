@@ -23,7 +23,7 @@ describe("API Testing Using Cypress for GoRest API", () => {
     });
   });
 
-  it.only("TC-API-102: should post and verify user id is in response", () => {
+  it.only("TC-API-102: should post and verify all keys and values is in response", () => {
     apiReq.postRequest().then((response) => {
         const userID=response.body.id
         expect(response.status).to.equal(201)
@@ -31,13 +31,13 @@ describe("API Testing Using Cypress for GoRest API", () => {
         expect(response.body.id).to.equal(userID)
         expect(response.body.name).to.equal(apiReq.userDetails.name)
         expect(response.body.email).to.equal(apiReq.userDetails.email);
-        expect(response.body.status).to.equal(apiReq.userDetails.status);
+        expect(response.body.status).to.equal(apiReq.userDetails);
     
     })
 
  });
     
-    it("TC-API-103: should edit user details using PATCH request", () => {
+    it("TC-API-103: should edit user details and assert response using PATCH request", () => {
         
         const updatedUser = {
           name: user.firstName,
@@ -58,7 +58,7 @@ describe("API Testing Using Cypress for GoRest API", () => {
         });
     })
 
-    it("TC-API-104: should edit user details using PUT request", () => {
+    it("TC-API-104: should edit user details and assert response using PUT request", () => {
     
 
       cy.request({
@@ -74,7 +74,7 @@ describe("API Testing Using Cypress for GoRest API", () => {
       });
     });
 
-    it("TC-API-105: should delete user id", () => {
+    it("TC-API-105: should delete user by  id", () => {
       cy.request({
         method: "DELETE",
         url: baseUrl + "/" + 8005635,
@@ -85,9 +85,4 @@ describe("API Testing Using Cypress for GoRest API", () => {
         expect(response.status).to.equal(204);
       });
     });
-
-
-    
-
-  
 })
