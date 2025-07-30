@@ -18,6 +18,7 @@ export default defineConfig({
     saveAllAttempts: false,
     html: true,
     json: true,
+    overwrite:false
   },
   e2e: {
     //retries: {
@@ -30,6 +31,7 @@ export default defineConfig({
     //viewportHeight: 880,
     setupNodeEvents(on, config) {
       require("cypress-mochawesome-reporter/plugin")(on);
+      return config;
       on("before:run", async (details) => {
         console.log("override before:run");
         await beforeRunHook(details);
