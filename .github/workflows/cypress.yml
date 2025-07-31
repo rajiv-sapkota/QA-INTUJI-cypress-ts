@@ -38,11 +38,7 @@ jobs:
           name: Saucedemo Test Report
           path: ./cypress/reports
 
-      - name: Download report artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Report
-          path: ./downloaded_artifacts
+     
 
       - name: Send Report via Email
         if: always()
@@ -56,4 +52,4 @@ jobs:
           body: "Please find the attached report from the latest workflow run."
           to: rajiv.sapkota96@gmail.com
           from: ${{ secrets.EMAIL_USERNAME }}
-          attachments: ./downloaded_artifacts/index.html
+          attachments: ./cypress/reports/index.html
