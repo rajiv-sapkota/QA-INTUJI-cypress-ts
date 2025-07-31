@@ -10,15 +10,15 @@ dotenv.config({ path: "./.env" });
 export default defineConfig({
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
-    reportDir: "cypress/reports/html",
+    reportDir: "cypress/reports",
     charts: true,
     reportPageTitle: "Report for SauceDemo",
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,
     html: true,
-    json: true,
-    overwrite:false
+    json: false,
+    overwrite: false,
   },
   e2e: {
     //retries: {
