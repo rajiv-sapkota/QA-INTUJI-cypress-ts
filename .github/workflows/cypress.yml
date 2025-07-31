@@ -35,5 +35,25 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-report
+          name: Saucedemo Test Report
           path: ./cypress/reports
+
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Report
+          path: ./downloaded_artifacts
+
+      - name: Send Report via Email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Report for SauceDemo Test via Actions - ${{ github.run_id }}"
+          body: "Please find the attached report from the latest workflow run."
+          to: rajiv.sapkota96@gmail.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          attachments: ./downloaded_artifacts/index.html
