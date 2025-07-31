@@ -2,10 +2,12 @@ name: Cypress Tests with Mochawesome Reporter
 
 on:
   push:
-    branches: ["*"]
+    branches: ["main"]
   pull_request:
-    branches: ["*"]
-
+    branches: ["main"]
+  schedule:
+    - cron: "15 6 * * *" # for daily scheduled run at 12 pm nepali time
+  workflow_dispatch:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -37,8 +39,6 @@ jobs:
         with:
           name: Saucedemo Test Report
           path: ./cypress/reports
-
-     
 
       - name: Send Report via Email
         if: always()
