@@ -6,8 +6,9 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    - cron: "15 6 * * *" # for daily scheduled run at 12 pm nepali time
+    - cron: "15 6 * * *" # Runs daily at 12:00 PM Nepali time
   workflow_dispatch:
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -40,7 +41,7 @@ jobs:
           name: Saucedemo Test Report
           path: ./cypress/reports
 
-      - name: Send Report via Email
+      - name: 📧 Send Report via Email
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
@@ -53,3 +54,26 @@ jobs:
           to: rajiv.sapkota96@gmail.com
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: ./cypress/reports/index.html
+
+      - name: 💬 Comment & ❌ Auto-close PR if tests failed
+        if: failure() && github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "❌ Cypress tests failed. This PR is being closed automatically."
+          gh pr close ${{ github.event.pull_request.number }}
+        continue-on-error: true
+
+      - name: ✅ Auto-merge PR if tests passed
+        if: success() && github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Merging PR #${{ github.event.pull_request.number }}..."
+          curl -X PUT \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge \
+            -d '{"merge_method": "squash"}'
+          echo "PR #${{ github.event.pull_request.number }} merged successfully."
