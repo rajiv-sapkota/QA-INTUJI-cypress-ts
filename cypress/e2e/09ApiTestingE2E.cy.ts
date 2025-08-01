@@ -19,9 +19,9 @@ const baseUrl = "https://gorest.co.in/public/v2/users";
 describe("E2E API test for GOREST API / USERS", () => {
   it("TC-101: Should execute E2E API test for GOREST API / USERS", () => {
    
-      //getting all users
+    //getting all users
     cy.log("Getting all Users");
-      apiReq.getRequest().then((response) => {
+    apiReq.getRequest().then((response) => {
       expect(response.status).to.equal(200);
     });
 
@@ -60,19 +60,21 @@ describe("E2E API test for GOREST API / USERS", () => {
         expect(response.status).to.equal(200);
       });
         
-        //deleting user
-        cy.log("Deleting User")
-        cy.request({
-          method: "DELETE",
+      //deleting user
+      cy.log("Deleting User")
+      cy.request({
+        method: "DELETE",
         url: `${baseUrl}/${userID}`,
-          headers: {
-            Authorization: token,
-          }
-        }).then((response) => {
-            expect(response.status).to.equal(204)
-        });
+        headers: {
+          Authorization: token,
+        }
+      }).then((response) => {
+        expect(response.status).to.equal(204)
+      });
     });
   });
-});
 
+  it("TC-102: Should try to create user", () => {
+  });
+})
 
