@@ -13,7 +13,7 @@ describe("Logout Tests", () => {
     logout.assertSuccessfullLogout();
   });
 
-  it.skip("TC-LOGOUT-102:Tests if users are asked for Confirmation", () => {
+  it("TC-LOGOUT-102:Tests if users are asked for Confirmation", () => {
     logout.clickHamburgerIcon();
     logout.clickLogoutLink();
     logout.assertConformationMessage("Do you really want to logout?");
