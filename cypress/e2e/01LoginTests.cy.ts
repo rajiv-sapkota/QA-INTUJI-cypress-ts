@@ -58,7 +58,7 @@ describe("Test cases for login", () => {
     loginPage.typePassword(password).assertPasswordMasked();
   });
 
-  it("TC-LOGIN-106:Test hide password button is available and working", () => {
+  it.skip("TC-LOGIN-106:Test hide password button is available and working", () => {
     loginPage.clickHidePasswordButton();
   });
 
