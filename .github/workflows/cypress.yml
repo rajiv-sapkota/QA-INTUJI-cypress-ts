@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: "15 6 * * *" # Runs daily at 12:00 PM Nepali time
   workflow_dispatch:
+    
+permissions:
+         pull-requests: write
+         contents: write
 
 jobs:
   cypress-run:
